@@ -1,0 +1,9 @@
+#[http]
+#proxy = proxyvipecc.nb.ford.com:83
+[user]
+	email = bhass1@ford.com
+	name = Bill Hass
+[color]
+	ui = auto
+[credential "https://github.com"]
+    username = bhass1
