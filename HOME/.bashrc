@@ -112,6 +112,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-export QNX_SDK=/home/mobilenav/source/mobilenav/mobilenav-qnx/QNX_SDK
-export QNX_INSTALL_ROOT=/opt/qnx650/
-export QNXLM_LICENSE_FILE=@10.144.209.10
