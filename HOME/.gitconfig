@@ -1,7 +1,5 @@
-#[http]
-#proxy = proxyvipecc.nb.ford.com:83
 [user]
-	email = bhass1@ford.com
+	email = billhass@umich.edu
 	name = Bill Hass
 [color]
 	ui = auto
