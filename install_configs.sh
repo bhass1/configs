@@ -27,3 +27,4 @@ for file in $(ls -A HOME); do
     fi
 done
 
+./append_bashrc.sh
