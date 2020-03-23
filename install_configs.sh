@@ -62,4 +62,4 @@ function install_dir {
 install_dir "HOME" ~
 
 ./append_bashrc.sh
-source ./.bashrc
+source ~/.bashrc
