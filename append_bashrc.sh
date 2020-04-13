@@ -17,11 +17,21 @@
 ## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-BINS="lspace open 7zopen 7zclose hexdiff"
-
+BINS="7zopen 7zclose hexdiff"
 for bin in $BINS; do
   if ! grep "alias $bin" ~/.bashrc; then 
-    echo "alias $bin='sudo du -h -d 1'"
-    echo "alias $bin='sudo du -h -d 1'" >> ~/.bashrc
+    echo "alias $bin=~/bin/$bin.sh"
+    echo "alias $bin=~/bin/$bin.sh" >> ~/.bashrc
   fi
 done
+
+if ! grep "alias lspace" ~/.bashrc; then 
+  echo "alias lspace='sudo du -h -d 1'"
+  echo "alias lspace='sudo du -h -d 1'" >> ~/.bashrc
+fi
+if ! grep "alias open" ~/.bashrc; then 
+  echo "alias open='xdg-open'"
+  echo "alias lspace='xdg-open'" >> ~/.bashrc
+fi
+
+
