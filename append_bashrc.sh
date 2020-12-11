@@ -17,7 +17,7 @@
 ## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
-BINS="7zopen 7zclose hexdiff dosink"
+BINS="7zopen 7zclose hexdiff dosink zap_sdcard"
 for bin in $BINS; do
   if ! grep "alias $bin" ~/.bashrc; then
     echo "alias $bin=~/bin/$bin.sh"
