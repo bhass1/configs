@@ -25,11 +25,18 @@ for bin in $BINS; do
   fi
 done
 
-if ! grep "alias lspace" ~/.bashrc; then
-  echo "alias lspace='sudo du -h -d 1'"
-  echo "alias lspace='sudo du -h -d 1'" >> ~/.bashrc
-fi
-if ! grep "alias open" ~/.bashrc; then
-  echo "alias open='xdg-open'"
-  echo "alias open='xdg-open'" >> ~/.bashrc
-fi
+#Keys
+ALIAS="lspace open login gitgraph"
+#Values
+ALIAS_lspace='sudo du -h -d 1'
+ALIAS_open='xdg-open'
+ALIAS_login='eval `ssh-agent` && ssh-add ~/.ssh/id_github'
+ALIAS_gitgraph='git log --graph --oneline'
+
+for alias in $ALIAS; do
+  ALIAS_var_name=ALIAS_$alias
+  if ! grep "alias $alias" ~/.bashrc; then
+    echo "alias $alias=$(eval 'echo \$$ALIAS_var_name')"
+    echo "alias $alias=$(eval 'echo \$$ALIAS_var_name')" >> ~/.bashrc
+  fi
+done
