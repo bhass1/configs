@@ -2,29 +2,35 @@
 #
 # Copyright 2020 Bill Hass
 # 
-# Small script to flash a binary image to an SD-Card or other mmcblk device.
+# Small script to flash a binary image to an SD-Card or other block device.
 #
 
+set -e
+
 DEV_NODE=/dev/mmcblk0
-IMAGE=tmp/deploy/images/s32g274a-learcgw/fsl-image-base-s32g274a-learcgw.sdcard
+IMAGE=tmp/deploy/images/nitrogen8mm/boundary-image-multimedia-full-nitrogen8mm.wic
 
 function usage() {
-echo "$0, a small script to flash a binary image to an SD-Card or other mmcblk"
+echo "$(basename $0), a small script to flash a binary image to an SD-Card or other block device"
 echo ""
-echo "Usage: $0 <IMAGE> [<DEV_NODE>]"
+echo "Usage: $(basename $0) <IMAGE> [<DEV_NODE>]"
 echo ""
 echo "IMAGE    - path to binary image to write from (default: $IMAGE)"
 echo "DEV_NODE - path to device node to write to (default: $DEV_NODE)"
 
 }
 
-if [ ! -z $1 ]; then
+if [ ! -z "$1" ]; then
+  if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+    usage
+    exit 1
+  fi
   >&2 echo "> Overriding default $IMAGE"
   >&2 echo "    With supplied    $1"
-  IMAGE=$1
+  IMAGE="$1"
 fi
 
-if [ ! -z $2 ]; then
+if [ ! -z "$2" ]; then
   >&2 echo "> Overriding default $DEV_NODE"
   >&2 echo "    With supplied    $2"
   DEV_NODE=$2

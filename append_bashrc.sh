@@ -36,7 +36,7 @@ ALIAS_gitgraph='git log --graph --oneline'
 for alias in $ALIAS; do
   ALIAS_var_name=ALIAS_$alias
   if ! grep "alias $alias" ~/.bashrc; then
-    echo "alias $alias=$(eval 'echo \$$ALIAS_var_name')"
-    echo "alias $alias=$(eval 'echo \$$ALIAS_var_name')" >> ~/.bashrc
+    echo "alias $alias=$(eval echo \$$ALIAS_var_name)"
+    echo "alias $alias=$(eval echo \$$ALIAS_var_name)" >> ~/.bashrc
   fi
 done
