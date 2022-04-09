@@ -23,61 +23,65 @@
 #
 
 function do_replace {
-    local SRC=$1
-    local DEST=$2
-    local FILE=$3
-    cp $SRC/$FILE $DEST/$FILE
-    echo -e "> $DEST/$FILE overwritten\t\t\t - complete"
+    local from_dir=$1
+    local to_dir=$2
+    local file=$3
+    cp $from_dir/$file $to_dir/$file
+    echo -e "> $to_dir/$file overwritten\t\t\t - complete"
 }
 
 function no_replace {
-    local SRC=$1
-    local DEST=$2
-    local FILE=$3
-    echo -e "> $DEST/$FILE not overwritten\t\t\t - skipped"
+    local from_dir=$1
+    local to_dir=$2
+    local file=$3
+    echo -e "> $to_dir/$file not overwritten\t\t\t - skipped"
 }
 
+function defer_user {
+
 function install_file {
-    local SRC=$1
-    local DEST=$2
-    local FILE=$3
-    if [ -f $DEST/$FILE ]; then
-        if diff $DEST/$FILE $SRC/$FILE > /dev/null; then
-            echo -e "> $DEST/$FILE is already up-to-date\t\t - complete";
+# Compares with existing file in to_dir, if different, use stdin to
+# determine for overwrite
+    local from_dir=$1
+    local to_dir=$2
+    local file=$3
+    if [ -f $to_dir/$file ]; then
+        if diff $to_dir/$file $from_dir/$file > /dev/null; then
+            echo -e "> $to_dir/$file is already up-to-date\t\t - complete";
         else
             echo "> File Conflict."
-            echo "> Diff of $DEST/$FILE (<) and $SRC/$FILE (>)"
-            diff $DEST/$FILE $SRC/$FILE
+            echo "> Diff of $to_dir/$file (<) and $from_dir/$file (>)"
+            diff $to_dir/$file $from_dir/$file
             while true; do
                 read -p "    ...         Overwrite?[y/n]" yn
                 case $yn in
-                    [Yy]* ) do_replace "$SRC" "$DEST" "$FILE"; break;;
-                    [Nn]* ) no_replace "$SRC" "$DEST" "$FILE"; break;;
+                    [Yy]* ) do_replace "$from_dir" "$to_dir" "$file"; break;;
+                    [Nn]* ) no_replace "$from_dir" "$to_dir" "$file"; break;;
                     * ) echo -e "> You must select y or n!\t\t\t - ERROR!";
                 esac
             done
         fi
     else
-        mkdir -p $DEST
-        cp $SRC/$FILE $DEST/$FILE
-        echo -e "> $DEST/$FILE newly created\t\t\t - complete";
+        mkdir -p $to_dir
+        cp $from_dir/$file $to_dir/$file
+        echo -e "> $to_dir/$file newly created\t\t\t - complete";
     fi
 }
 
 function install_dir {
-    local SRC=$1
-    local DEST=$2
+    local from_dir=$1
+    local to_dir=$2
 
-    for file in $(ls -A $SRC); do
-        if [ -f $SRC/$file ]; then
-            install_file "$SRC" "$DEST" "$file"
-        elif [ -d $SRC/$file ]; then
-            install_dir $SRC/$file $DEST/$file
+    for file in $(ls -A $from_dir); do
+        if [ -f $from_dir/$file ]; then
+            install_file "$from_dir" "$to_dir" "$file"
+        elif [ -d $from_dir/$file ]; then
+            install_dir $from_dir/$file $to_dir/$file
         fi
     done
 }
 
-install_dir "HOME" ~
+install_dir "./data/HOME" ~
 
-./append_bashrc.sh
+./util/append_bashrc.sh
 source ~/.bashrc
