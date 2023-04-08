@@ -28,10 +28,10 @@ done
 #Keys
 ALIAS="lspace open login gitgraph"
 #Values
-ALIAS_lspace='sudo du -h -d 1'
+ALIAS_lspace='"sudo du -h -d 1"'
 ALIAS_open='xdg-open'
-ALIAS_login='eval `ssh-agent` && ssh-add ~/.ssh/id_github'
-ALIAS_gitgraph='git log --graph --oneline'
+ALIAS_login='"eval `ssh-agent` && ssh-add ~/.ssh/id_github"'
+ALIAS_gitgraph='"git log --graph --oneline"'
 
 for alias in $ALIAS; do
   ALIAS_var_name=ALIAS_$alias
